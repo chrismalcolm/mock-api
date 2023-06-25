@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:5.0.2
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${REACT_APP_DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${REACT_APP_DB_PASSWORD}
+    ports:
+      - ${REACT_APP_DB_PORT}:27017
+    volumes:
+      - db:/data/db
+  
+volumes:
+  db:
