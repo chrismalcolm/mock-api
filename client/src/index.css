@@ -1,0 +1,244 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: monospace;
+    font-size: 20px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #fff;
+    background: #333;
+}
+
+.App {
+    max-width: 1000px;
+    margin: 4rem auto;
+}
+
+.App > h1 {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.App > h3 {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.Card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #444;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #333333;
+}
+
+.Card--button--container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.1rem;
+}
+
+.Card--text {
+  width: 600px;
+}
+
+.Card--text h1 {
+    color: #ff9900;
+}
+
+.Card--title h1 {
+  color: #ff9900;
+}
+
+.Card--text h1:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.Card--text span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.App > h3:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.Card--button button {
+  color: #f5f6f7;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.Card--button__red {
+  border: 1px solid #ca0000;
+  background:  #ca0000;
+  width: 7em;
+}
+
+.Card--button__red:hover {
+  border: 1px solid #ff0000;
+  background: #ff0000;
+}
+
+.Card--button__red:active {
+  border: 1px solid #a50000;
+  background: #a50000;
+}
+
+.Card--button__blue {
+  border: 1px solid #0066aa;
+  background: #0066aa;
+  width: 7em;
+}
+
+.Card--button__blue:hover {
+  border: 1px solid #0099ff;
+  background: #0099ff;
+}
+
+.Card--button__blue:active {
+  border: 1px solid #005a96;
+  background: #005a96;
+}
+
+.Card--button__yellow {
+  border: 1px solid #ff9900;
+  background: #ff9900;
+  width: 7em;
+}
+
+.Card--button__yellow:hover {
+  border: 1px solid #ffac2f;
+  background: #ffac2f;
+}
+
+.Card--button__yellow:active {
+  border: 1px solid #df8600;
+  background: #df8600;
+}
+
+.Card--button__notification {
+  border: 1px solid #444;
+  background:  #444;
+  width: 15em;
+}
+
+.Card--button__notification:hover {
+  border: 1px solid #555;
+  background:  #555;
+}
+
+.Card--button__notification:active {
+  border: 1px solid #333;
+  background:  #333;
+}
+
+.Card--tab:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.vertical--line {
+  border-left: 2px solid #333;
+  height: 50px;
+  margin-right: 1.4em;
+}
+
+.vertical--line-2 {
+  border-left: 2px solid #666;
+  height: 150px;
+  margin-right: 1.4em;
+}
+
+.vertical--line-3 {
+  border-left: 2px solid #666;
+  height: 500px;
+  margin-right: 1.4em;
+}
+
+.Form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #555;
+    margin-bottom: 1rem;
+}
+
+.Form > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Form input {
+    background: #888;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ff9900;
+    border-radius: 10px;
+    display: block;
+    margin: 0.3rem 1rem 0 0;
+    transition: background 0.25s, color 0.25s;
+}
+
+.Form input:hover {
+  background: #777;
+}
+
+.Form button {
+  color: #f5f6f7;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+  width: 10em;
+}
+
+input[type=text], select {
+  width: 20em;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: block;
+  border: 1px solid #444;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: #777;
+  margin-bottom: 1em;
+  transition: background 0.25s, color 0.25s;
+}
+
+input[type=text]:hover, select:hover {
+  background: #888;
+}
+
+textarea {
+  margin: auto;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  width: 600px;
+  height: 60px;
+  padding: 20px;
+  border: 1px solid #444;
+  box-sizing: border-box;
+  color: #000;
+  background: #777;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  resize: none;
+  transition: background 0.25s, color 0.25s;
+}
+
+textarea:hover {
+  background: #888;
+}
