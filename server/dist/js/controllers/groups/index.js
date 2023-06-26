@@ -17,27 +17,21 @@ const group_1 = __importDefault(require("../../models/group"));
 const getGroups = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allGroups = yield group_1.default.find();
-        res
-            .status(200)
-            .json({
+        res.status(200).json({
             groups: allGroups,
         });
     }
     catch (e) {
         const error = e;
         try {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 errorMessage: error.message,
             });
         }
         catch (HTTPError) {
             console.log("HTTP error getGroups(): " + HTTPError);
         }
-        ;
     }
-    ;
 });
 exports.getGroups = getGroups;
 const addGroup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -51,18 +45,14 @@ const addGroup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (validateErrMsg !== "") {
             throw Error(validateErrMsg);
         }
-        ;
         const groups = yield group_1.default.find();
-        const conflictErrMsg = checkGroupConflicts(group, groups);
+        const conflictErrMsg = checkGroupConflicts("", group, groups);
         if (conflictErrMsg !== "") {
             throw Error(conflictErrMsg);
         }
-        ;
         const newGroup = yield group.save();
         const allGroups = yield group_1.default.find();
-        res
-            .status(201)
-            .json({
+        res.status(201).json({
             message: `Group '${describeGroup(group)}' created`,
             group: newGroup,
             groups: allGroups,
@@ -71,18 +61,14 @@ const addGroup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     catch (e) {
         const error = e;
         try {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 errorMessage: error.message,
             });
         }
         catch (HTTPError) {
             console.log("HTTP error addGroup(): " + HTTPError);
         }
-        ;
     }
-    ;
 });
 exports.addGroup = addGroup;
 const updateGroup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -93,12 +79,14 @@ const updateGroup = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (validateErrMsg !== "") {
             throw Error(validateErrMsg);
         }
-        ;
+        const groups = yield group_1.default.find();
+        const conflictErrMsg = checkGroupConflicts(id, group, groups);
+        if (conflictErrMsg !== "") {
+            throw Error(conflictErrMsg);
+        }
         const updateGroup = yield group_1.default.findByIdAndUpdate({ _id: id }, body);
         const allGroups = yield group_1.default.find();
-        res
-            .status(200)
-            .json({
+        res.status(200).json({
             message: `Group '${describeGroup(group)}' updated`,
             group: updateGroup,
             groups: allGroups,
@@ -107,27 +95,21 @@ const updateGroup = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (e) {
         const error = e;
         try {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 errorMessage: error.message,
             });
         }
         catch (HTTPError) {
             console.log("HTTP error updateGroup(): " + HTTPError);
         }
-        ;
     }
-    ;
 });
 exports.updateGroup = updateGroup;
 const deleteGroup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const group = yield group_1.default.findByIdAndRemove(req.params.id);
         const allGroups = yield group_1.default.find();
-        res
-            .status(200)
-            .json({
+        res.status(200).json({
             message: `Group '${describeGroup(group)}' deleted`,
             group: group,
             groups: allGroups,
@@ -136,18 +118,14 @@ const deleteGroup = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (e) {
         const error = e;
         try {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 errorMessage: error.message,
             });
         }
         catch (HTTPError) {
             console.log("HTTP error deleteGroup(): " + HTTPError);
         }
-        ;
     }
-    ;
 });
 exports.deleteGroup = deleteGroup;
 const describeGroup = (group) => {
@@ -166,19 +144,20 @@ const validateGroup = (group) => {
     }
     return "";
 };
-const checkGroupConflicts = (group, groups) => {
-    var errMsg = "";
+const checkGroupConflicts = (id, group, groups) => {
+    let errMsg = "";
     groups.forEach((g) => {
+        if (`${g._id}` === id) {
+            return;
+        }
         if (g.name === group.name) {
             errMsg = `Group validation failed: conflict for name '${group.name}' already exists`;
             return;
         }
-        ;
         if (g.hostname === group.hostname) {
             errMsg = `Group validation failed: conflict for name '${group.hostname}' already exists`;
             return;
         }
-        ;
     });
     return errMsg;
 };

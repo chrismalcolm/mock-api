@@ -18,53 +18,41 @@ const getEndpoints = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const groupid = req.params.groupid;
         const allEndpoints = yield endpoint_1.default.find({ groupID: groupid });
-        res
-            .status(200)
-            .json({
+        res.status(200).json({
             endpoints: allEndpoints,
         });
     }
     catch (e) {
         const error = e;
         try {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 errorMessage: error.message,
             });
         }
         catch (HTTPError) {
             console.log("HTTP error getEndpoints(): " + HTTPError);
         }
-        ;
     }
-    ;
 });
 exports.getEndpoints = getEndpoints;
 const getAllEndpoints = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allEndpoints = yield endpoint_1.default.find();
-        res
-            .status(200)
-            .json({
+        res.status(200).json({
             endpoints: allEndpoints,
         });
     }
     catch (e) {
         const error = e;
         try {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 errorMessage: error.message,
             });
         }
         catch (HTTPError) {
             console.log("HTTP error getAllEndpoints(): " + HTTPError);
         }
-        ;
     }
-    ;
 });
 exports.getAllEndpoints = getAllEndpoints;
 const addEndpoint = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -82,25 +70,20 @@ const addEndpoint = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (endpoint.path.length > 0 && endpoint.path[0] !== "/") {
             endpoint.path = "/" + endpoint.path;
         }
-        ;
         endpoint.requestBody = compactJSON(`${endpoint.requestBody}`);
         endpoint.responseBody = compactJSON(`${endpoint.responseBody}`);
         const validateErrMsg = validateEndpoint(endpoint);
         if (validateErrMsg !== "") {
             throw Error(validateErrMsg);
         }
-        ;
         const endpoints = yield endpoint_1.default.find({ groupID: groupid });
-        const conflictErrMsg = checkEndpointConflicts(endpoint, endpoints);
+        const conflictErrMsg = checkEndpointConflicts("", endpoint, endpoints);
         if (conflictErrMsg !== "") {
             throw Error(conflictErrMsg);
         }
-        ;
         const newEndpoint = yield endpoint.save();
         const allEndpoints = yield endpoint_1.default.find({ groupID: groupid });
-        res
-            .status(201)
-            .json({
+        res.status(201).json({
             message: `Endpoint '${describeEndpoint(endpoint)}' created`,
             endpoint: newEndpoint,
             endpoints: allEndpoints,
@@ -109,18 +92,14 @@ const addEndpoint = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (e) {
         const error = e;
         try {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 errorMessage: error.message,
             });
         }
         catch (HTTPError) {
             console.log("HTTP error addEndpoint(): " + HTTPError);
         }
-        ;
     }
-    ;
 });
 exports.addEndpoint = addEndpoint;
 const updateEndpoint = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -130,19 +109,20 @@ const updateEndpoint = (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (endpoint.path.length > 0 && endpoint.path[0] !== "/") {
             endpoint.path = "/" + endpoint.path;
         }
-        ;
         endpoint.requestBody = compactJSON(`${endpoint.requestBody}`);
         endpoint.responseBody = compactJSON(`${endpoint.responseBody}`);
         const validateErrMsg = validateEndpoint(endpoint);
         if (validateErrMsg !== "") {
             throw Error(validateErrMsg);
         }
-        ;
+        const endpoints = yield endpoint_1.default.find({ groupID: groupid });
+        const conflictErrMsg = checkEndpointConflicts(id, endpoint, endpoints);
+        if (conflictErrMsg !== "") {
+            throw Error(conflictErrMsg);
+        }
         const updateEndpoint = yield endpoint_1.default.findOneAndUpdate({ _id: id, groupID: groupid }, endpoint);
         const allEndpoints = yield endpoint_1.default.find({ groupID: groupid });
-        res
-            .status(200)
-            .json({
+        res.status(200).json({
             message: `Endpoint '${describeEndpoint(endpoint)}' updated`,
             endpoint: updateEndpoint,
             endpoints: allEndpoints,
@@ -151,18 +131,14 @@ const updateEndpoint = (req, res) => __awaiter(void 0, void 0, void 0, function*
     catch (e) {
         const error = e;
         try {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 errorMessage: error.message,
             });
         }
         catch (HTTPError) {
             console.log("HTTP error updateEndpoint(): " + HTTPError);
         }
-        ;
     }
-    ;
 });
 exports.updateEndpoint = updateEndpoint;
 const deleteEndpoint = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -173,9 +149,7 @@ const deleteEndpoint = (req, res) => __awaiter(void 0, void 0, void 0, function*
             groupID: groupid,
         });
         const allEndpoints = yield endpoint_1.default.find({ groupID: groupid });
-        res
-            .status(200)
-            .json({
+        res.status(200).json({
             message: `Endpoint '${describeEndpoint(endpoint)}' deleted`,
             endpoint: endpoint,
             endpoints: allEndpoints,
@@ -184,18 +158,14 @@ const deleteEndpoint = (req, res) => __awaiter(void 0, void 0, void 0, function*
     catch (e) {
         const error = e;
         try {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 errorMessage: error.message,
             });
         }
         catch (HTTPError) {
             console.log("HTTP error deleteEndpoint(): " + HTTPError);
         }
-        ;
     }
-    ;
 });
 exports.deleteEndpoint = deleteEndpoint;
 const describeEndpoint = (endpoint) => {
@@ -208,29 +178,27 @@ const validateEndpoint = (endpoint) => {
     if (endpoint.path === "") {
         return "Endpoint validation failed: path is an empty string";
     }
-    ;
     if (endpoint.httpMethod === "") {
         return "Endpoint validation failed: httpMethod is an empty string";
     }
-    ;
     if (endpoint.responseCode === "") {
         return "Endpoint validation failed: responseCode is an empty string";
     }
-    ;
     if (/\s/.test(endpoint.path)) {
         return `Endpoint validation failed: path '${endpoint.path}' contains whitespace characters`;
     }
-    ;
     return "";
 };
-const checkEndpointConflicts = (endpoint, endpoints) => {
-    var errMsg = "";
+const checkEndpointConflicts = (id, endpoint, endpoints) => {
+    let errMsg = "";
     endpoints.forEach((e) => {
-        if (e.path === endpoint.path && e.httpMethod === endpoint.httpMethod && e.requestBody === endpoint.requestBody) {
+        if (`${e._id}` !== id &&
+            e.path === endpoint.path &&
+            e.httpMethod === endpoint.httpMethod &&
+            e.requestBody === endpoint.requestBody) {
             errMsg = `Endpoint validation failed: conflict for path '${endpoint.path}', httpMethod [${endpoint.httpMethod}] and requestBody already exists`;
             return;
         }
-        ;
     });
     return errMsg;
 };

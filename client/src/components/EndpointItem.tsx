@@ -1,59 +1,75 @@
-import React, { useState } from "react"
-import { serverHostnameStatic } from "./../constants"
-import EndpointForm from "./EndpointForm"
-import { notifyClipboard } from './Notifications'
-
+import React, { useState } from "react";
+import { serverHostnameStatic } from "./../constants";
+import EndpointForm from "./EndpointForm";
+import { notifyClipboard } from "./Notifications";
 
 type Props = EndpointProps & {
-  endpoint: IEndpoint,
-  hostname: string,
-  groupID: string,
-  submitAction: (e: React.FormEvent, groupID: string, endpoint: IEndpoint) => void
-  deleteLabel: string,
-  deleteAction: (groupID: string, _id: string) => void
-}
+  endpoint: IEndpoint;
+  hostname: string;
+  groupID: string;
+  submitAction: (
+    e: React.FormEvent,
+    groupID: string,
+    endpoint: IEndpoint
+  ) => void;
+  deleteLabel: string;
+  deleteAction: (groupID: string, _id: string) => void;
+};
 
-const Endpoint: React.FC<Props> = ({ endpoint, hostname, groupID, submitAction, deleteLabel, deleteAction }) => {
-  
-  const [toggleUpdateEndpointPanel, setToggleUpdateEndpointPanel] = useState<boolean | {}>()
+const Endpoint: React.FC<Props> = ({
+  endpoint,
+  hostname,
+  groupID,
+  submitAction,
+  deleteLabel,
+  deleteAction,
+}) => {
+  const [toggleUpdateEndpointPanel, setToggleUpdateEndpointPanel] =
+    useState<boolean>();
 
   const toggle = (): void => {
-    setToggleUpdateEndpointPanel(!toggleUpdateEndpointPanel)
-  }
+    setToggleUpdateEndpointPanel(!toggleUpdateEndpointPanel);
+  };
 
   const handleLinkClick = () => {
-    const url = serverHostnameStatic+hostname+endpoint.path;
-    const httpMethod = endpoint.httpMethod.toUpperCase()
+    const url = serverHostnameStatic + hostname + endpoint.path;
+    const httpMethod = endpoint.httpMethod.toUpperCase();
     if (httpMethod === "GET") {
-      window.location.href=url;
-      return
+      window.location.href = url;
+      return;
     }
-    let body = endpoint.requestBody;
+    let body = "";
     try {
       const obj = JSON.parse(body);
       body = JSON.stringify(obj);
     } catch {
-      //
+      body = endpoint.requestBody;
     }
-    const command = `curl -X ${httpMethod} -H "Content-Type:application/json" '${url}' -d '${body}' | jq`
-     
-    notifyClipboard(command)
-  }
+    const command = `curl -X ${httpMethod} -H "Content-Type:application/json" '${url}' -d '${body}' | jq`;
+
+    notifyClipboard(command);
+  };
 
   return (
     <div>
       <div className="Card">
         <div className="Card--text">
-          <h1 onClick={toggle}>{endpoint.path + " [" + endpoint.httpMethod + "] " + endpoint.responseCode}</h1>
-          <span onClick={handleLinkClick}><i>{serverHostnameStatic+hostname}</i><b>{endpoint.path}</b></span>
+          <h1 onClick={toggle}>
+            {endpoint.path +
+              " [" +
+              endpoint.httpMethod +
+              "] " +
+              endpoint.responseCode}
+          </h1>
+          <span onClick={handleLinkClick}>
+            <i>{serverHostnameStatic + hostname}</i>
+            <b>{endpoint.path}</b>
+          </span>
         </div>
         <div className="Card--button--container">
-          <div className="vertical--line"/>
+          <div className="vertical--line" />
           <div className="Card--button">
-            <button
-              onClick={toggle}
-              className="Card--button__blue"
-            >
+            <button onClick={toggle} className="Card--button__blue">
               {toggleUpdateEndpointPanel ? "Close" : "Edit"}
             </button>
             <button
@@ -82,10 +98,11 @@ const Endpoint: React.FC<Props> = ({ endpoint, hostname, groupID, submitAction, 
           submitLabel="Update Endpoint"
           submitAction={submitAction}
         />
-      ) : ""
-      }
+      ) : (
+        ""
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default Endpoint;

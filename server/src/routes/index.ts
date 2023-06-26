@@ -1,7 +1,23 @@
-import { Router } from "express"
-import { getGroups, addGroup, updateGroup, deleteGroup } from "../controllers/groups"
-import { getEndpoints, getAllEndpoints, addEndpoint, updateEndpoint, deleteEndpoint } from "../controllers/endpoints"
-import { getStatic, postStatic, putStatic, deleteStatic } from "../controllers/static"
+import { Router } from "express";
+import {
+  addGroup,
+  deleteGroup,
+  getGroups,
+  updateGroup,
+} from "../controllers/groups";
+import {
+  addEndpoint,
+  deleteEndpoint,
+  getAllEndpoints,
+  getEndpoints,
+  updateEndpoint,
+} from "../controllers/endpoints";
+import {
+  deleteStatic,
+  getStatic,
+  postStatic,
+  putStatic,
+} from "../controllers/static";
 
 const router: Router = Router();
 

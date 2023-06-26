@@ -20,11 +20,21 @@
     "@types/express-serve-static-core": "^4.17.35",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
     "concurrently": "^8.2.0",
-    "nodemon": "^2.0.22"
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8"
   },
   "scripts": {
     "build": "env-cmd -f .env tsc",
-    "start": "env-cmd -f .env concurrently \"tsc -w\" \"nodemon dist/js/app.js\""
+    "start": "env-cmd -f .env concurrently \"tsc -w\" \"nodemon dist/js/app.js\"",
+    "lint": "eslint --ext .ts ./src",
+    "lint:fix": "npm run lint -- --fix"
   }
 }

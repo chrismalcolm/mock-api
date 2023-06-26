@@ -1,36 +1,46 @@
-import React, { useState } from "react"
-import { serverHostnameStatic } from "./../constants"
-import GroupForm from "./GroupForm"
+import React, { useState } from "react";
+import { serverHostnameStatic } from "./../constants";
+import GroupForm from "./GroupForm";
 
 type Props = GroupProps & {
-  submitLabel: string,
-  submitAction: (e: React.FormEvent, group: IGroup) => void
-  deleteLabel: string,
-  deleteAction: (_id: string) => void
-}
+  submitLabel: string;
+  submitAction: (e: React.FormEvent, group: IGroup) => void;
+  deleteLabel: string;
+  deleteAction: (_id: string) => void;
+};
 
-const Group: React.FC<Props> = ({ group, submitLabel, submitAction, deleteLabel, deleteAction }) => {
-
-  const [toggleUpdateGroupPanel, setToggleUpdateGroupPanel] = useState<boolean | {}>()
+const Group: React.FC<Props> = ({
+  group,
+  submitLabel,
+  submitAction,
+  deleteLabel,
+  deleteAction,
+}) => {
+  const [toggleUpdateGroupPanel, setToggleUpdateGroupPanel] =
+    useState<boolean>();
 
   const toggle = (): void => {
-    setToggleUpdateGroupPanel(!toggleUpdateGroupPanel)
-  }
+    setToggleUpdateGroupPanel(!toggleUpdateGroupPanel);
+  };
 
   return (
     <div>
       <div className="Card">
         <div className="Card--text">
           <h1 onClick={toggle}>{group.name}</h1>
-          <span onClick={() => {window.location.href="/" + group._id}}><i>{serverHostnameStatic}</i><b>{group.hostname}</b></span>
+          <span
+            onClick={() => {
+              window.location.href = "/" + group._id;
+            }}
+          >
+            <i>{serverHostnameStatic}</i>
+            <b>{group.hostname}</b>
+          </span>
         </div>
         <div className="Card--button--container">
-          <div className="vertical--line"/>
+          <div className="vertical--line" />
           <div className="Card--button">
-            <button
-              onClick={toggle}
-              className="Card--button__blue"
-            >
+            <button onClick={toggle} className="Card--button__blue">
               {toggleUpdateGroupPanel ? "Close" : "Rename"}
             </button>
           </div>
@@ -47,7 +57,7 @@ const Group: React.FC<Props> = ({ group, submitLabel, submitAction, deleteLabel,
               {deleteLabel}
             </button>
           </div>
-        </div> 
+        </div>
       </div>
 
       {toggleUpdateGroupPanel ? (
@@ -58,11 +68,11 @@ const Group: React.FC<Props> = ({ group, submitLabel, submitAction, deleteLabel,
           submitLabel={submitLabel}
           submitAction={submitAction}
         />
-      ) : ""
-      }
-
+      ) : (
+        ""
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Group
+export default Group;
