@@ -24,35 +24,35 @@ docker-compose down -v
 
 * **Group Routes:**
 
-    [GET /groups](#get-/groups)
+    [GET /groups](#get-groups)
 
-    [POST /groups](#post-/groups)
+    [POST /groups](#post-groups)
 
-    [PUT /groups/:id](#put-/groups/:id)
+    [PUT /groups/:id](#put-groupsid)
 
-    [DELETE /groups/:id](#delete-/groups/:id)
+    [DELETE /groups/:id](#delete-groupsid)
 
 * **Endpoint Routes:**
 
-    [GET /endpoints](#get-/endpoints)
+    [GET /endpoints](#get-endpoints)
 
-    [GET /groups/:groupid/endpoints](#get-/groups/:groupid/endpoints)
+    [GET /groups/:groupid/endpoints](#get-groupsgroupidendpoints)
 
-    [POST /groups/:groupid/endpoints](#post-/groups/:groupid/endpoints)
+    [POST /groups/:groupid/endpoints](#post-groupsgroupidendpoints)
 
-    [PUT /groups/:groupid/endpoints/:id](#put-/groups/:groupid/endpoints/:id)
+    [PUT /groups/:groupid/endpoints/:id](#put-groupsgroupidendpointsid)
 
-    [DELETE /groups/:groupid/endpoints/:id](#delete-/groups/:groupid/endpoints/:id)
+    [DELETE /groups/:groupid/endpoints/:id](#delete-groupsgroupidendpointsid)
 
 * **Static Routes:**
 
-    [GET /static/:hostname/:path](#get-/static/:hostname/:path)
+    [GET /static/:hostname/:path](#get-statichostnamepath)
 
-    [POST /static/:hostname/:path](#post-/static/:hostname/:path)
+    [POST /static/:hostname/:path](#post-statichostnamepath)
 
-    [PUT /static/:hostname/:path](#put-/static/:hostname/:path)
+    [PUT /static/:hostname/:path](#put-statichostnamepath)
 
-    [DELETE /static/:hostname/:path](#delete-/static/:hostname/:path)
+    [DELETE /static/:hostname/:path](#delete-statichostnamepath)
 
 ### `GET /groups`
 
