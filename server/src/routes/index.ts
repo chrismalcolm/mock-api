@@ -21,11 +21,6 @@ import {
 
 const router: Router = Router();
 
-router.get("/static/*", getStatic);
-router.post("/static/*", postStatic);
-router.put("/static/*", putStatic);
-router.delete("/static/*", deleteStatic);
-
 router.get("/groups", getGroups);
 router.post("/groups", addGroup);
 router.put("/groups/:id", updateGroup);
@@ -36,5 +31,10 @@ router.get("/groups/:groupid/endpoints", getEndpoints);
 router.post("/groups/:groupid/endpoints", addEndpoint);
 router.put("/groups/:groupid/endpoints/:id", updateEndpoint);
 router.delete("/groups/:groupid/endpoints/:id", deleteEndpoint);
+
+router.get("/static/*", getStatic);
+router.post("/static/*", postStatic);
+router.put("/static/*", putStatic);
+router.delete("/static/*", deleteStatic);
 
 export default router;
