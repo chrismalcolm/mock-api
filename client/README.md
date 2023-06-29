@@ -16,7 +16,12 @@ yarn start
 
     [Create a Group](#create-a-group)
 
+
     [Rename a Group](#rename-a-group)
+
+
+https://github.com/chrismalcolm/mock-api/assets/43220741/14e37820-964d-4e49-abd9-6c28fa919ef8
+
 
     [Delete a Group](#delete-a-group)
 
